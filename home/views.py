@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, get_object_or_404
+from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from home.models import Book
 from home.forms import BookForm
@@ -25,3 +25,9 @@ def edit_book(request, book_id):
         form.save()
         return HttpResponseRedirect(reverse("home:book_list"))
     return render(request, "form.html", {"form": form})
+
+
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    book.delete()
+    return redirect(reverse("home:book_list"))
